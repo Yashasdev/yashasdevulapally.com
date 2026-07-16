@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Caveat, Courier_Prime, Geist_Mono } from "next/font/google";
-import { profile } from "@/lib/content";
 import "./globals.css";
 
 // Just the tagline under the name — the one printed line that isn't the
