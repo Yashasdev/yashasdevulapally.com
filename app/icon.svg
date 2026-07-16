@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- A drop of ink on paper. Reads at 16px, which a letterform doesn't. -->
+  <rect width="32" height="32" rx="7" fill="#d2d0ca" />
+  <circle cx="16" cy="16" r="6.5" fill="#1c2637" />
+</svg>

@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# hridaynarang.com
 
-## Getting Started
-
-First, run the development server:
+A personal site that is one sheet of crumpled paper, one screen, no scrolling.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How the paper works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The paper isn't a picture of paper — it's lit in real time.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**`public/paper-normal.jpg`** is a scan of real crumpled paper ([ambientCG
+Paper003](https://ambientcg.com/view?id=Paper003), CC0 public domain). It stores
+surface *normals* rather than baked-in shading, which is what makes the light a
+live variable.
 
-## Learn More
+**`components/crumple-light.tsx`** runs a WebGL2 fragment shader over the whole
+viewport, doing the Lambert term per pixel against a point light that follows the
+cursor (or the gyroscope on a phone). It adds a cheap ambient-occlusion term so
+creases stay dark regardless of where the light is — without that, paper reads as
+plastic. The texture is sampled in page space and lit in viewport space, so the
+sheet scrolls under a fixed lamp.
 
-To learn more about Next.js, take a look at the following resources:
+This was originally generated procedurally, with a Voronoi cell structure
+approximating the crease network. It's a dead end worth recording: real crumpled
+paper is **faceted** — flat planes meeting at sharp straight creases — and
+Voronoi `f1` height is *distance to a seed*, so every cell comes out as a cone
+and bulges. It read as molded plastic. SVG's `feTurbulence` is worse: it only
+ever makes rounded organic ridges, which look like stucco or leather at any
+setting. A photograph of the real thing is both more convincing and smaller than
+the generated normal map it replaced.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**`components/uncrumple.tsx`** runs the whole content block through an SVG
+displacement map on load, falling from scale 46 to 0 while the shader's crease
+depth relaxes on the same easing curve and duration. The writing is *on* the
+paper, so it has to deform with it. The filter is attached on mount, not
+server-rendered — with JS off you get flat readable text rather than a page
+frozen mid-crumple — and it's removed entirely when the animation ends, since a
+displacement map at scale 0 still costs a full filter pass on every repaint.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Type
 
-## Deploy on Vercel
+Two voices, matching the two things on a real sheet:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Caveat** — the name only. The signature.
+- **Courier Prime** — everything else. It's a typed note.
+- **Geist Mono** — one exception, the tagline under the name.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Text carries `.ink`, which is `mix-blend-mode: multiply`, so creases run *through*
+the letters. The photo deliberately doesn't: ink soaks into paper, but a
+photograph is an object lying on top of it, so it gets a real drop shadow instead.
+
+## Content
+
+All of it is in **`lib/content.ts`** — roles, dates, links, and the pen notes.
+Nothing to hunt for in the markup.
+
+## Gotcha
+
+Turbopack repeatedly served **stale CSS** after edits to `globals.css` during
+development. If a change doesn't show up, `rm -rf .next` and restart.

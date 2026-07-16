@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-paper: #d2d0ca;
+
+  --color-ink: #1c2637;
+  --color-fg: #1a1917;
+  --color-muted: #52504a;
+  --color-faint: #6e6a63;
+  --color-line: #adaaa2;
+  --color-accent: #15803d;
+
+  /* The sheet is typed; only the signature is handwritten. Everything that
+     isn't the name inherits this, so there is no second printed face. */
+  --font-sans: var(--font-courier), ui-monospace, monospace;
+  --font-caveat: var(--font-caveat), cursive;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/*
+ * Ink. multiply lets the crumple shading below show through the letterforms, so
+ * the writing sits in the creases rather than floating over them. The colour is
+ * a pen's blue-black rather than pure black, which is what ink actually is.
+ */
+.ink {
+  color: var(--color-ink);
+  mix-blend-mode: multiply;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fine fiber grain, shared by the flat sheets. */
+@utility grain-tile {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix in='n' type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='170' height='170' filter='url(%23g)' opacity='0.2'/%3E%3C/svg%3E");
+  background-size: 170px 170px;
+  background-blend-mode: multiply;
+}
+
+/* The base sheet: full bleed, flat, carrying only colour and grain. */
+.paper-base {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-paper);
+  @apply grain-tile;
+}
+
+/*
+ * Fallback only, for browsers without WebGL2: the scan's flat colour map, which
+ * carries the paper's own tone but none of the relief. Hidden the moment the
+ * shader has its texture.
+ */
+.paper-crumple {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("/paper-color.jpg");
+  background-size: 720px 720px;
+  background-repeat: repeat;
+  mix-blend-mode: multiply;
+}
+
+/* The live-lit crumple. Multiplies over the sheets exactly as the baked one did. */
+.paper-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/*
+ * Lighting pass: a soft key light from the upper left and a gentle vignette.
+ * Paper never reads as real under flat light.
+ */
+.paper-light {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(115% 85% at 20% 8%, #ffffff30 0%, #ffffff00 58%),
+    radial-gradient(135% 115% at 50% 52%, #00000000 42%, #00000026 100%);
+}
+
+/*
+ * Letters revealed left-to-right on a stagger, so the ink arrives in reading
+ * order at roughly writing speed. The reveal overshoots slightly on the right
+ * so cursive tails aren't clipped mid-stroke.
+ */
+.letter {
+  display: inline-block;
+  white-space: pre;
+  clip-path: inset(0 100% 0 0);
+  animation: write 0.16s ease-out forwards;
+  animation-delay: calc(var(--i) * 55ms + 260ms);
+}
+
+@keyframes write {
+  to {
+    clip-path: inset(0 -8% 0 0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .letter {
+    animation: none;
+    clip-path: none;
+  }
 }
