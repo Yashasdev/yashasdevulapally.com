@@ -174,7 +174,7 @@ export default function Home() {
                   never do. relative + inline-block so the wave sizes to exactly
                   this word and can't be split by a line break. */}
               <span className="relative inline-block">
-                house
+                house music
                 <Squiggle
                   className="-bottom-1 left-0 h-[7px] w-full text-ink/55"
                   delay={140}
