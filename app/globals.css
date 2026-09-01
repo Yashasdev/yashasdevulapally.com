@@ -31,8 +31,17 @@ html {
   color-scheme: light;
 }
 
+/*
+ * The desk. Only ever seen for the two seconds the sheet is balled up — the
+ * paper covers the viewport the rest of the time. Warm and dark, so the ball
+ * reads as a bright object lying on a surface rather than a hole in the page.
+ *
+ * Literal rather than a `@theme` token: Tailwind only emits theme variables it
+ * can see being used, and it doesn't count a bare `var()` in a stylesheet rule,
+ * so a token here resolves to nothing and the rule is silently dropped.
+ */
 body {
-  background-color: var(--color-paper);
+  background-color: #38332c;
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

@@ -2,6 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import {
+  BALL_PX,
+  TOTAL_MS,
+  UNFOLD_AT,
+  crumpleAmount,
+} from "@/lib/crumple";
+
 import { RECRUMPLE_EVENT } from "./crumple-button";
 
 /**
@@ -65,12 +72,11 @@ void main() {
 const TEX_PX = 720;
 const AMBIENT = 0.62;
 const AO = 0.3;
-// How hard the creases read. 1 is the scan as measured. The sheet arrives balled
-// up and relaxes to REST on the same curve and duration as the text un-warping
-// in Uncrumple, so the two read as one physical event.
-const STRENGTH_START = 3.6;
+// How hard the creases read. 1 is the scan as measured. STRENGTH_BALL is what
+// they run to when the sheet is fully balled up — the deep creases are most of
+// what makes a small rectangle read as *crumpled* rather than as a thumbnail.
+const STRENGTH_BALL = 6.2;
 const STRENGTH_REST = 1.7;
-const RELAX_MS = 1500;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
   const sh = gl.createShader(type)!;
@@ -158,7 +164,7 @@ export function CrumpleLight() {
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
-      t0 = performance.now();
+      t0 = performance.now() - UNFOLD_AT;
       setLive(true);
     };
     img.src = "/paper-normal.jpg";
@@ -211,8 +217,8 @@ export function CrumpleLight() {
     };
     window.addEventListener("deviceorientation", onTilt);
 
-    // Deepen the creases back to STRENGTH_START and let them relax again, on
-    // the same clock as the text warp above. Restarting t0 is the whole of it.
+    // Deepen the creases and let them relax again, on the same clock as the
+    // sheet and the writing. Rewinding to 0 is the whole of it.
     const onRecrumple = () => {
       if (!relaxed && t0) t0 = performance.now();
     };
@@ -223,14 +229,28 @@ export function CrumpleLight() {
       cx += (tx - cx) * 0.12;
       cy += (ty - cy) * 0.12;
 
-      // Relax from balled-up to rest, matching Uncrumple's curve exactly.
+      // Crease depth follows the shared crumple clock, so the paper hardens as
+      // the sheet balls up and softens as it opens.
       let s = STRENGTH_REST;
+      let a = 0;
       if (!relaxed && t0) {
-        const e = Math.min(1, (performance.now() - t0) / RELAX_MS);
-        const eased = 1 - Math.pow(1 - e, 3);
-        s = STRENGTH_START + (STRENGTH_REST - STRENGTH_START) * eased;
+        const elapsed = performance.now() - t0;
+        if (elapsed < TOTAL_MS) {
+          a = crumpleAmount(elapsed);
+          s = STRENGTH_REST + (STRENGTH_BALL - STRENGTH_REST) * a;
+        }
       }
       gl.uniform1f(uStrength, s);
+
+      // Hold the facets at a constant size *on screen* while the sheet shrinks.
+      //
+      // Without this the whole canvas is scaled down by CSS along with the
+      // paper, so at ball size the creases are sub-pixel noise and what should
+      // be a crumpled ball reads as a smooth pebble. Sampling the map over a
+      // proportionally larger area cancels the shrink exactly: a handful of big
+      // facets across the ball, which is what crumpled paper actually is.
+      const k = 1 - a * (1 - BALL_PX / Math.max(1, window.innerHeight));
+      gl.uniform2f(uTexSize, (TEX_PX * dpr) / k, (TEX_PX * dpr) / k);
 
       // The sheet scrolls with the page; the lamp stays with the cursor. So the
       // texture is sampled in page space while the light stays in viewport

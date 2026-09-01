@@ -2,6 +2,8 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { TOTAL_MS, UNFOLD_AT, crumpleAmount } from "@/lib/crumple";
+
 import { RECRUMPLE_EVENT } from "./crumple-button";
 
 /**
@@ -24,7 +26,7 @@ import { RECRUMPLE_EVENT } from "./crumple-button";
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export const UNCRUMPLE_MS = 1500;
+/** Displacement at full crumple. Well past legible — that's the point. */
 const FROM = 46;
 
 export function Uncrumple({
@@ -47,37 +49,36 @@ export function Uncrumple({
 
     let raf = 0;
 
-    // Ball it up and let it relax. Run once on mount, and again every time the
-    // sheet is crumpled by hand — the same animation both times, because
-    // "balled up, then flattening" is what you'd see either way.
-    const run = () => {
+    // Warp the writing by however balled-up the sheet currently is. The number
+    // comes from the shared clock rather than a timer of its own, so the text
+    // and the paper under it are never a frame out of step.
+    const run = (from: number) => {
       cancelAnimationFrame(raf);
-      box.style.filter = "url(#uncrumple)";
-      disp.setAttribute("scale", String(FROM));
       setDone(false);
-
-      const t0 = performance.now();
+      const t0 = performance.now() - from;
       const frame = () => {
-        const e = Math.min(1, (performance.now() - t0) / UNCRUMPLE_MS);
-        const eased = 1 - Math.pow(1 - e, 3);
-        disp.setAttribute("scale", String(FROM * (1 - eased)));
-        if (e < 1) {
-          raf = requestAnimationFrame(frame);
-        } else {
+        const elapsed = performance.now() - t0;
+        const a = crumpleAmount(elapsed);
+        if (a <= 0) {
           // Drop the filter entirely — a displacement map at scale 0 still
           // costs a full filter pass every repaint, and still softens the text.
           box.style.filter = "";
           setDone(true);
+          return;
         }
+        box.style.filter = "url(#uncrumple)";
+        disp.setAttribute("scale", String(FROM * a));
+        if (elapsed < TOTAL_MS) raf = requestAnimationFrame(frame);
       };
-      raf = requestAnimationFrame(frame);
+      frame();
     };
 
-    run();
-    window.addEventListener(RECRUMPLE_EVENT, run);
+    run(UNFOLD_AT);
+    const onRecrumple = () => run(0);
+    window.addEventListener(RECRUMPLE_EVENT, onRecrumple);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener(RECRUMPLE_EVENT, run);
+      window.removeEventListener(RECRUMPLE_EVENT, onRecrumple);
     };
   }, []);
 
