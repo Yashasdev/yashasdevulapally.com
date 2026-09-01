@@ -24,7 +24,7 @@ const courier = Courier_Prime({
 });
 
 const DESCRIPTION =
-  "Founding engineer at Fleetline, building optimization algorithms for trucking. Previously Cliqk and Clueoai. Computer science at Georgia Tech.";
+  "I'm currently building Presence. I was the third engineering hire at Fleetline, joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I play tennis and I'm a huge Don Toliver fan.";
 
 export const metadata: Metadata = {
   title: "hriday narang",

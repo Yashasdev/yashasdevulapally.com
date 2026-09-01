@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { RECRUMPLE_EVENT } from "./crumple-button";
+
 /**
  * Relights the paper every frame from a light that follows the cursor.
  *
@@ -209,6 +211,13 @@ export function CrumpleLight() {
     };
     window.addEventListener("deviceorientation", onTilt);
 
+    // Deepen the creases back to STRENGTH_START and let them relax again, on
+    // the same clock as the text warp above. Restarting t0 is the whole of it.
+    const onRecrumple = () => {
+      if (!relaxed && t0) t0 = performance.now();
+    };
+    window.addEventListener(RECRUMPLE_EVENT, onRecrumple);
+
     let raf = 0;
     const frame = () => {
       cx += (tx - cx) * 0.12;
@@ -239,6 +248,7 @@ export function CrumpleLight() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("deviceorientation", onTilt);
+      window.removeEventListener(RECRUMPLE_EVENT, onRecrumple);
     };
   }, []);
 

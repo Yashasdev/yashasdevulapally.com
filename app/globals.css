@@ -133,3 +133,53 @@ body {
     clip-path: none;
   }
 }
+/*
+ * Doodles ink themselves in. The stroke is dashed with one dash as long as the
+ * whole path and offset out of sight, then walked back to zero — so the line
+ * grows from its start rather than fading up, which is the difference between
+ * a pen moving and an image appearing. Each path carries pathLength="1" (an SVG
+ * attribute, not a CSS one), so a single duration fits every path regardless of
+ * how long it actually is.
+ *
+ * They wait out the uncrumple: nobody annotates a sheet that's still balled up.
+ */
+.doodle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ink 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: calc(1500ms + var(--doodle-delay, 0ms));
+}
+
+@keyframes ink {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/*
+ * A ring left by a mug. Two stacked radials: a dark band where the liquid
+ * pooled and dried at the meniscus, and a much fainter wash inside it, because
+ * a coffee ring is darker at its edge than its middle. Multiplied into the
+ * sheet like the ink, since a stain is *in* paper rather than on it.
+ */
+.coffee-ring {
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(
+      circle,
+      transparent 0 57%,
+      rgba(122, 84, 46, 0.1) 59%,
+      rgba(122, 84, 46, 0.17) 65%,
+      rgba(122, 84, 46, 0.05) 70%,
+      transparent 73%
+    ),
+    radial-gradient(circle, rgba(122, 84, 46, 0.035) 0 58%, transparent 62%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+

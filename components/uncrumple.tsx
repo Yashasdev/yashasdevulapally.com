@@ -2,6 +2,8 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { RECRUMPLE_EVENT } from "./crumple-button";
+
 /**
  * The sheet arrives balled up and smooths itself out.
  *
@@ -43,26 +45,40 @@ export function Uncrumple({
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    box.style.filter = "url(#uncrumple)";
-    disp.setAttribute("scale", String(FROM));
-
     let raf = 0;
-    const t0 = performance.now();
-    const frame = () => {
-      const e = Math.min(1, (performance.now() - t0) / UNCRUMPLE_MS);
-      const eased = 1 - Math.pow(1 - e, 3);
-      disp.setAttribute("scale", String(FROM * (1 - eased)));
-      if (e < 1) {
-        raf = requestAnimationFrame(frame);
-      } else {
-        // Drop the filter entirely — a displacement map at scale 0 still costs
-        // a full filter pass every repaint, and still softens the text.
-        box.style.filter = "";
-        setDone(true);
-      }
+
+    // Ball it up and let it relax. Run once on mount, and again every time the
+    // sheet is crumpled by hand — the same animation both times, because
+    // "balled up, then flattening" is what you'd see either way.
+    const run = () => {
+      cancelAnimationFrame(raf);
+      box.style.filter = "url(#uncrumple)";
+      disp.setAttribute("scale", String(FROM));
+      setDone(false);
+
+      const t0 = performance.now();
+      const frame = () => {
+        const e = Math.min(1, (performance.now() - t0) / UNCRUMPLE_MS);
+        const eased = 1 - Math.pow(1 - e, 3);
+        disp.setAttribute("scale", String(FROM * (1 - eased)));
+        if (e < 1) {
+          raf = requestAnimationFrame(frame);
+        } else {
+          // Drop the filter entirely — a displacement map at scale 0 still
+          // costs a full filter pass every repaint, and still softens the text.
+          box.style.filter = "";
+          setDone(true);
+        }
+      };
+      raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+
+    run();
+    window.addEventListener(RECRUMPLE_EVENT, run);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener(RECRUMPLE_EVENT, run);
+    };
   }, []);
 
   return (
