@@ -161,8 +161,8 @@ export default function Home() {
             */}
             <p>
               I play tennis. I was a{" "}
-              <A href={links.tennis}>four-star recruit</A> and I played
-              Kalamazoo in 2025.
+              <A href={links.tennis}>four-star recruit</A> and I played the US
+              Boys National Championships in Kalamazoo in 2025.
             </p>
 
             <p>
