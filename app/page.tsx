@@ -15,20 +15,35 @@ import { links, photos, profile, stubs } from "@/lib/content";
  * always there, it just darkens on hover. No trailing ↗: the arrows turn prose
  * into a row of buttons.
  */
-function A({ href, children }: { href: string; children: React.ReactNode }) {
+function A({
+  href,
+  className = "",
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="pointer-events-auto underline decoration-ink/30 underline-offset-[3px] transition-colors hover:decoration-ink"
+      className={`pointer-events-auto underline decoration-ink/30 underline-offset-[3px] transition-colors hover:decoration-ink ${className}`}
     >
       {children}
     </a>
   );
 }
 
-/** A company mark set into the sentence that mentions it. */
+/**
+ * A company mark set into the sentence that mentions it.
+ *
+ * nowrap because the mark is an inline-block, and a line is allowed to break
+ * between an atomic inline box and the text after it even with no space
+ * between them — which strands the logo at the end of one line and its own
+ * name at the start of the next.
+ */
 function Named({
   href,
   mark,
@@ -39,7 +54,7 @@ function Named({
   children: React.ReactNode;
 }) {
   return (
-    <A href={href}>
+    <A href={href} className="whitespace-nowrap">
       <InkMark src={mark} className="mr-1 size-[13px] translate-y-px" />
       {children}
     </A>
