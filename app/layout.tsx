@@ -24,7 +24,7 @@ const courier = Courier_Prime({
 });
 
 const DESCRIPTION =
-  "I'm currently building Presence. Previously, I was the third engineering hire at Fleetline, joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I play tennis, and I played the US Boys National Championships in Kalamazoo in 2025.";
+  "I'm currently building Presence. Previously, I was the 3rd engineering hire at Fleetline, joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I play tennis, and I played the US Boys National Championships in Kalamazoo in 2025.";
 
 export const metadata: Metadata = {
   title: "hriday narang",

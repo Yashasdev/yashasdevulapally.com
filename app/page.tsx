@@ -136,7 +136,7 @@ export default function Home() {
               actually say something about how he works.
             */}
             <p>
-              Previously, I was the third engineering hire at{" "}
+              Previously, I was the 3rd engineering hire at{" "}
               <Named href={links.fleetline} mark="/logos/fleetline.svg">
                 Fleetline
               </Named>
