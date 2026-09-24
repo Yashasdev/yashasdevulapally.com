@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
-  <!-- The registration cross from the page's frame, white on black. Square
-       corners like the rules it comes from; a cross reads at 16px, which a
-       letterform doesn't. -->
-  <rect width="32" height="32" fill="#0a0a0a" />
-  <rect x="15" y="8" width="2" height="16" fill="#ffffff" />
-  <rect x="8" y="15" width="16" height="2" fill="#ffffff" />
+  <!-- The page's frame in miniature: a square whose sides run past each
+       corner, so every corner carries a registration cross. One weight
+       throughout. -->
+  <rect width="32" height="32" fill="#ffffff" />
+  <g fill="#0a0a0a">
+    <rect x="3" y="7" width="26" height="2" />
+    <rect x="3" y="23" width="26" height="2" />
+    <rect x="7" y="3" width="2" height="26" />
+    <rect x="23" y="3" width="2" height="26" />
+  </g>
 </svg>
