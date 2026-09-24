@@ -6,8 +6,8 @@
  * onto the sheet as-is they read as stickers: one is a black tile, one is
  * invisible on light paper. So each is reduced to its silhouette (the `-ink`
  * files, generated from the originals) and drawn here as a mask filled with
- * `currentColor`, which means every mark is the same ink as the writing around
- * it and inherits the crease multiply along with everything else.
+ * `currentColor`, which means every mark is the same colour as the link it
+ * sits in.
  */
 export function InkMark({
   src,
