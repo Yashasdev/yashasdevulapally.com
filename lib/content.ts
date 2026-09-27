@@ -2,7 +2,6 @@ export const profile = {
   name: "Hriday Narang",
   tagline: "studying computer science at georgia tech",
   emails: [
-    "hriday@thepresenceinc.com",
     "hnarang7@gatech.edu",
     "hridaynarang@gmail.com",
   ],

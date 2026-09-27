@@ -12,11 +12,18 @@ const BAYER = [
   [15, 7, 13, 5],
 ];
 
+// Hovering develops the photo slowly; leaving puts the dither back quicker,
+// since that's tidying up rather than the thing you came to see.
+const IN_MS = 2000;
+const OUT_MS = 1000;
+
+const ease = (p: number) => 0.5 - Math.cos(Math.PI * p) / 2;
+
 /**
  * The photo, reduced to pure black and white, so the only image on the page is
- * made of the same two colours as everything else. Hovering shows the real
- * photo in greyscale. Both are drawn from the same crop onto canvases, so they
- * line up exactly.
+ * made of the same two colours as everything else. Hovering develops it into
+ * the real photo in greyscale: the dither gains grey levels and resolution
+ * frame by frame until nothing of the grid is left, and runs back on leave.
  */
 export function DitherPortrait({
   src,
@@ -30,16 +37,92 @@ export function DitherPortrait({
   dots?: number;
   className?: string;
 }) {
-  const ditherRef = useRef<HTMLCanvasElement>(null);
-  const photoRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hoverRef = useRef<(on: boolean) => void>(() => {});
 
   useEffect(() => {
     const N = dots;
-    const dither = ditherRef.current;
-    const photo = photoRef.current;
-    const ctx = dither?.getContext("2d", { willReadFrequently: true });
-    const photoCtx = photo?.getContext("2d");
-    if (!dither || !photo || !ctx || !photoCtx) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    const work = document.createElement("canvas");
+    const workCtx = work.getContext("2d", { willReadFrequently: true });
+    if (!canvas || !ctx || !workCtx) return;
+
+    // The crop in colour at device resolution; every frame is drawn from it.
+    let crop: HTMLCanvasElement | null = null;
+    let p = 0;
+    let target = 0;
+    let raf = 0;
+    let last = 0;
+
+    // e = 0 is the plain dither: two levels, one canvas pixel per dot. e = 1
+    // is the photo. In between, the level count and the resolution both climb
+    // geometrically, so each frame is a similar-sized step to the eye.
+    const draw = (e: number) => {
+      if (!crop) return;
+      const hi = crop.width;
+
+      if (e >= 1) {
+        canvas.width = canvas.height = hi;
+        ctx.filter = "grayscale(1)";
+        ctx.drawImage(crop, 0, 0);
+        return;
+      }
+
+      const R = Math.round(N * (hi / N) ** e);
+      const L = Math.round(2 * 128 ** e) - 1;
+      work.width = work.height = R;
+      workCtx.drawImage(crop, 0, 0, hi, hi, 0, 0, R, R);
+      const px = workCtx.getImageData(0, 0, R, R);
+      const d = px.data;
+
+      const lum = new Float32Array(R * R);
+      let lo = 255;
+      let top = 0;
+      for (let i = 0; i < R * R; i++) {
+        const v = 0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2];
+        lum[i] = v;
+        lo = Math.min(lo, v);
+        top = Math.max(top, v);
+      }
+
+      for (let y = 0; y < R; y++) {
+        for (let x = 0; x < R; x++) {
+          const i = y * R + x;
+          // Stretched to the full range first, so the threshold grid spans
+          // the photo's actual tones rather than 0–255 — easing back to the
+          // photo's own tones as it develops, so the last frame meets it.
+          const s = (lum[i] - lo) / (top - lo || 1);
+          const t = s + (lum[i] / 255 - s) * e;
+          const b = (BAYER[y % 4][x % 4] + 0.5) / 16;
+          const q = Math.min(L, Math.max(0, Math.ceil(t * L - b)));
+          d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = (q / L) * 255;
+          d[i * 4 + 3] = 255;
+        }
+      }
+      canvas.width = canvas.height = R;
+      ctx.putImageData(px, 0, 0);
+    };
+
+    const tick = (now: number) => {
+      const step = (now - last) / (target > p ? IN_MS : OUT_MS);
+      last = now;
+      p = target > p ? Math.min(target, p + step) : Math.max(target, p - step);
+      draw(ease(p));
+      raf = p === target ? 0 : requestAnimationFrame(tick);
+    };
+
+    hoverRef.current = (on) => {
+      target = on ? 1 : 0;
+      if (!crop) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        p = target;
+        draw(p);
+      } else if (!raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    };
 
     const img = new window.Image();
     img.src = src;
@@ -53,41 +136,20 @@ export function DitherPortrait({
       const sx = (w - side) / 2 + w * 0.02;
       const sy = (h - side) / 2 - h * 0.08;
 
-      // The hover photo renders at device resolution; the dither is one
-      // canvas pixel per dot, scaled up crisp.
-      const hi = Math.round(N * window.devicePixelRatio);
-      photo.width = photo.height = hi;
-      photoCtx.filter = "grayscale(1)";
-      photoCtx.drawImage(img, sx, sy, side, side, 0, 0, hi, hi);
+      const hi = Math.max(N, Math.round(N * window.devicePixelRatio));
+      crop = document.createElement("canvas");
+      crop.width = crop.height = hi;
+      crop.getContext("2d")?.drawImage(img, sx, sy, side, side, 0, 0, hi, hi);
 
-      dither.width = dither.height = N;
-      ctx.drawImage(img, sx, sy, side, side, 0, 0, N, N);
-      const px = ctx.getImageData(0, 0, N, N);
-      const d = px.data;
+      draw(0);
+      canvas.style.opacity = "1";
+      hoverRef.current(target === 1);
+    };
 
-      const lum = new Float32Array(N * N);
-      let lo = 255;
-      let top = 0;
-      for (let i = 0; i < N * N; i++) {
-        const v = 0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2];
-        lum[i] = v;
-        lo = Math.min(lo, v);
-        top = Math.max(top, v);
-      }
-
-      for (let y = 0; y < N; y++) {
-        for (let x = 0; x < N; x++) {
-          const i = y * N + x;
-          // Stretched to the full range first, so the threshold grid spans
-          // the photo's actual tones rather than 0–255.
-          const t = (lum[i] - lo) / (top - lo || 1);
-          const v = t * 16 > BAYER[y % 4][x % 4] + 0.5 ? 255 : 0;
-          d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = v;
-          d[i * 4 + 3] = 255;
-        }
-      }
-      ctx.putImageData(px, 0, 0);
-      dither.style.opacity = "1";
+    return () => {
+      img.onload = null;
+      cancelAnimationFrame(raf);
+      hoverRef.current = () => {};
     };
   }, [src, dots]);
 
@@ -95,15 +157,13 @@ export function DitherPortrait({
     <div
       role="img"
       aria-label={alt}
-      className={`group relative aspect-square overflow-hidden ${className}`}
+      onPointerEnter={() => hoverRef.current(true)}
+      onPointerLeave={() => hoverRef.current(false)}
+      className={`relative aspect-square cursor-pointer overflow-hidden ${className}`}
     >
       <canvas
-        ref={ditherRef}
+        ref={canvasRef}
         className="absolute inset-0 size-full opacity-0 transition-opacity duration-700 [image-rendering:pixelated]"
-      />
-      <canvas
-        ref={photoRef}
-        className="absolute inset-0 size-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
       />
     </div>
   );

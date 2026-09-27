@@ -143,7 +143,7 @@ export default function Home() {
         */}
           <section className="flex flex-1 flex-col justify-center gap-5 px-6 py-5 text-[22px] leading-[1.27] font-medium tracking-[-0.02em] text-faint sm:px-10 sm:text-2xl">
             <p className="text-fg">
-              I&rsquo;m currently building{" "}
+              I&rsquo;m currently working on{" "}
               <Named href={links.presence} mark="/logos/presence-ink.png">
                 Presence
               </Named>
@@ -162,8 +162,8 @@ export default function Home() {
                 Previously, I was the 3rd engineering hire at{" "}
                 <Named href={links.fleetline} mark="/logos/fleetline.svg">
                   Fleetline
-                </Named>
-                .
+                </Named>{" "}
+                (YC&nbsp;S25).
               </span>{" "}
               I joined pre-revenue and owned large parts of the product as we
               grew to $2M+ ARR and got acquired by{" "}
@@ -185,9 +185,12 @@ export default function Home() {
             and say the same thing without asking for anything.
           */}
             <p>
-              <span className="text-fg">I play tennis.</span> I was a{" "}
-              <A href={links.tennis}>four-star recruit</A> and I played the US
-              Boys National Championships in Kalamazoo in 2025.
+              <span className="text-fg">
+                I played tennis competitively growing up.
+              </span>{" "}
+              I was a <A href={links.tennis}>four-star recruit</A> and played
+              the US Boys National Championships in Kalamazoo in 2025. These
+              days I just play for fun.
             </p>
 
             <p>
