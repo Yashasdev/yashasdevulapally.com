@@ -167,11 +167,11 @@ export default function Home() {
                 <Named href={links.fleetline} mark="/logos/fleetline.svg">
                   Fleetline
                 </Named>{" "}
-                (YC&nbsp;S25).
+                (YC&nbsp;S25). I&nbsp;joined pre-revenue and owned large parts
+                of the product as we grew to $2M+ ARR and got acquired by{" "}
+                <A href={links.optym}>Optym</A>.
               </span>{" "}
-              I joined pre-revenue and owned large parts of the product as we
-              grew to $2M+ ARR and got acquired by{" "}
-              <A href={links.optym}>Optym</A>. Before Fleetline I was at{" "}
+              Before Fleetline I was at{" "}
               <Named href={links.cliqk} mark="/logos/cliqk-ink.png">
                 Cliqk
               </Named>
