@@ -142,12 +142,22 @@ export default function Home() {
           grey, so a skim down the left edge still gets the gist.
         */}
           <section className="flex flex-1 flex-col justify-center gap-5 px-6 py-5 text-[22px] leading-[1.27] font-medium tracking-[-0.02em] text-faint sm:px-10 sm:text-2xl">
-            <p className="text-fg">
-              I&rsquo;m currently working on{" "}
-              <Named href={links.presence} mark="/logos/presence-ink.png">
-                Presence
-              </Named>
-              .
+            <p>
+              <span className="text-fg">
+                I&rsquo;m currently nerding out over ML for the physical world,
+              </span>{" "}
+              especially VLAs for robot learning.
+            </p>
+
+            <p>
+              <span className="text-fg">
+                On the side, I&rsquo;m building{" "}
+                <Named href={links.presence} mark="/logos/presence-ink.png">
+                  Presence
+                </Named>
+                ,
+              </span>{" "}
+              where we make custom agent harnesses for service businesses.
             </p>
 
             {/*

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const DESCRIPTION =
-  "I'm currently working on Presence. Previously, I was the 3rd engineering hire at Fleetline (YC S25), joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I played tennis competitively growing up, including the US Boys National Championships in Kalamazoo in 2025. These days I just play for fun.";
+  "I’m currently nerding out over ML for the physical world, especially VLAs for robot learning. On the side, I’m building Presence, where we make custom agent harnesses for service businesses. Previously, I was the 3rd engineering hire at Fleetline (YC S25), joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I played tennis competitively growing up, including the US Boys National Championships in Kalamazoo in 2025. These days I just play for fun.";
 
 export const metadata: Metadata = {
   title: "hriday narang",
