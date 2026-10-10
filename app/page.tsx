@@ -190,11 +190,11 @@ export default function Home() {
           */}
             <p>
               <span className="text-fg">
-                I played tennis competitively growing up.
+                I played tennis competitively growing up. I was a{" "}
+                <A href={links.tennis}>four-star recruit</A>
               </span>{" "}
-              I was a <A href={links.tennis}>four-star recruit</A> and played
-              the US Boys National Championships in Kalamazoo in 2025. These
-              days I just play for fun.
+              and played the US Boys National Championships in Kalamazoo in
+              2025. These days I just play for fun.
             </p>
 
             <p>
