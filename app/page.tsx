@@ -199,8 +199,8 @@ export default function Home() {
 
             <p>
               <span className="text-fg">
-                I&rsquo;m a huge Don Toliver fan and I&rsquo;ve been to four of
-                his concerts.
+                I&rsquo;m a huge Don Toliver and Drake fan and I&rsquo;ve been
+                to four of Don&rsquo;s concerts.
               </span>{" "}
               Lately I&rsquo;ve really gotten into house music.
             </p>
