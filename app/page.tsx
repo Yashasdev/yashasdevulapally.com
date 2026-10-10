@@ -147,11 +147,11 @@ export default function Home() {
                 I&rsquo;m currently nerding out over ML for the physical world,
                 especially VLAs for robot learning.
               </span>{" "}
-              On the side, I&rsquo;m building{" "}
+              On the side, I&rsquo;m working on{" "}
               <Named href={links.presence} mark="/logos/presence-ink.png">
                 Presence
               </Named>
-              , where we make custom agent harnesses for service businesses.
+              , where we build custom agent harnesses for service businesses.
             </p>
 
             {/*
