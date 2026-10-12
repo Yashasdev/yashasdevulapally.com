@@ -1,221 +1,183 @@
-import { Clock } from "@/components/clock";
-import { DitherPortrait } from "@/components/dither-portrait";
-import { InkMark } from "@/components/ink-mark";
-import { links, profile } from "@/lib/content";
+import { HeroOrbit } from "@/components/hero-orbit";
+import { InteractionLayer } from "@/components/interaction-layer";
+import { YashasOS } from "@/components/yashas-os";
+import { currentlyRunning, navItems, profile, stories } from "@/lib/content";
 
-/**
- * A link inside a sentence, with a faint rule that darkens on hover. No
- * trailing ↗: the arrows turn prose into a row of buttons.
- */
-function A({
-  href,
-  className = "",
-  children,
-}: {
-  href: string;
-  className?: string;
-  children: React.ReactNode;
-}) {
+function ArrowLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a
-      href={href}
-      target={href.startsWith("mailto:") ? undefined : "_blank"}
-      rel="noreferrer"
-      className={`underline decoration-faint/50 underline-offset-[3px] transition-colors hover:decoration-fg ${className}`}
-    >
-      {children}
+    <a href={href} target="_blank" rel="noreferrer" className="arrow-link">
+      <span>{children}</span><i aria-hidden="true">↗</i>
     </a>
   );
 }
 
-/**
- * A company mark set into the sentence that mentions it.
- *
- * nowrap because the mark is an inline-block, and a line is allowed to break
- * between an atomic inline box and the text after it even with no space
- * between them — which strands the logo at the end of one line and its own
- * name at the start of the next.
- */
-function Named({
-  href,
-  mark,
-  children,
-}: {
-  href: string;
-  mark: string;
-  children: React.ReactNode;
-}) {
+function StoryVisual({ kind, number }: { kind: string; number: string }) {
   return (
-    <A href={href} className="whitespace-nowrap">
-      <InkMark
-        src={mark}
-        className="mr-[0.25em] size-[0.8em] translate-y-[0.1em]"
-      />
-      {children}
-    </A>
+    <div className={`story-visual story-visual-${kind}`} aria-hidden="true">
+      <span className="story-visual-index">FIELD_{number}</span>
+      {kind === "research" && (
+        <>
+          <div className="scan scan-one" /><div className="scan scan-two" />
+          <div className="scan-target"><i /><i /><i /></div>
+        </>
+      )}
+      {kind === "modeling" && (
+        <>
+          <div className="model-bars"><i /><i /><i /><i /><i /><i /></div>
+          <svg viewBox="0 0 400 220" preserveAspectRatio="none">
+            <path d="M0 188C55 184 70 156 114 158c56 3 54-85 105-75 46 9 51-55 96-39 39 14 51-28 85-35" />
+          </svg>
+        </>
+      )}
+      {kind === "civic" && (
+        <div className="civic-orbits">
+          <i /><i /><i /><span>PEOPLE<br />FIRST</span>
+        </div>
+      )}
+      {kind === "sport" && (
+        <div className="court">
+          <div className="court-net" />
+          <i className="court-ball" />
+          <span>17</span>
+        </div>
+      )}
+    </div>
   );
-}
-
-/**
- * A registration mark where two grid lines cross. Centred on the corner it's
- * placed at, so it sits over the lines rather than beside them.
- */
-function Cross({ className }: { className: string }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 16 16"
-      className={`absolute z-10 size-4 text-fg ${className}`}
-    >
-      <path d="M8 0v16M0 8h16" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  );
-}
-
-/** "a@b.com" → "a [at] b [dot] com". */
-function spellOut(email: string) {
-  return email.replace("@", " [at] ").replaceAll(".", " [dot] ");
 }
 
 export default function Home() {
   return (
-    // The side rails run the full height of the window; the frame is inset
-    // from the top and bottom so its closing lines have room to show.
-    <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col overflow-y-clip border-x border-line py-[clamp(0.75rem,calc(8vh_-_2.75rem),3.5rem)]">
-      <div className="relative flex flex-1 flex-col border-y border-line">
-        <Cross className="-top-2 -left-2" />
-        <Cross className="-top-2 -right-2" />
-        <Cross className="-bottom-2 -left-2" />
-        <Cross className="-bottom-2 -right-2" />
-        <main className="flex flex-1 flex-col">
-          <header className="relative flex flex-col gap-6 border-b border-line px-6 py-7 sm:flex-row sm:items-center sm:px-10">
-            <Cross className="-bottom-2 -left-2" />
-            <Cross className="-bottom-2 -right-2" />
-            <DitherPortrait
-              src="/hriday.jpg"
-              alt={profile.name}
-              dots={96}
-              className="size-24 shrink-0 border border-line"
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h1 className="text-2xl font-medium tracking-tight">
-                  {profile.name}
-                </h1>
-                <p className="text-sm">
-                  <A href={profile.github}>GitHub</A>
-                  <span className="mx-2 text-faint">/</span>
-                  <A href={profile.linkedin}>LinkedIn</A>
-                </p>
+    <>
+      <InteractionLayer />
+      <header className="site-header">
+        <a className="wordmark" href="#top" aria-label="Yashas Devulapally, home">
+          <span>YD</span><i>®</i>
+        </a>
+        <nav aria-label="Main navigation">
+          {navItems.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
+        </nav>
+        <div className="header-socials">
+          <a href={profile.github} target="_blank" rel="noreferrer">GH</a>
+          <a href={profile.linkedin} target="_blank" rel="noreferrer">IN</a>
+        </div>
+      </header>
+
+      <main>
+        <section id="top" className="hero section-pad">
+          <div className="hero-annotation"><span>PORTFOLIO / 2026</span><span>GEORGIA TECH / WORLDWIDE</span></div>
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <p className="micro-label">HELLO, INTERNET.</p>
+              <h1>
+                <span>Hey, I&rsquo;m Yashas.</span>
+                <span>I like making</span>
+                <span><em>things happen.</em></span>
+              </h1>
+              <div className="hero-intro">
+                <p>{profile.introduction}</p>
+                <a className="jump-link" href="#os">ENTER YASHAS OS <span>↓</span></a>
               </div>
-              <p className="text-muted">{profile.tagline}</p>
-              {/*
-              Spelled out rather than linked, so scrapers don't harvest them.
-              The separator hangs off the end of each address rather than the
-              front of the next, so a wrap never starts a line with a slash.
-            */}
-              <ul className="mt-3 flex flex-wrap gap-x-2 text-sm leading-6 text-muted">
-                {profile.emails.map((email, i) => (
-                  <li key={email} className="whitespace-nowrap">
-                    {spellOut(email)}
-                    {i < profile.emails.length - 1 && (
-                      <span className="ml-2 text-faint">/</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
             </div>
-          </header>
+            <HeroOrbit />
+          </div>
+          <div className="hero-bottomline">
+            <span>BIOMEDICAL ENGINEERING</span><i>✦</i><span>BUILDING THINGS</span><i>✦</i>
+            <span>CURIOUS BY DEFAULT</span>
+          </div>
+        </section>
 
-          {/*
-          Plain sentences with verbs in them.
+        <section className="many-sides" aria-label="A few sides of Yashas">
+          <div className="many-sides-intro">
+            <span className="micro-label light">NOT ONE LANE / 001</span>
+            <p>I&rsquo;m happiest somewhere between disciplines—when the map isn&rsquo;t obvious yet.</p>
+          </div>
+          <div className="word-river" aria-hidden="true">
+            <div>
+              BUILDING <em>↗</em> EXPLORING <em>↗</em> COMPETING <em>↗</em> CREATING <em>↗</em> THINKING <em>↗</em>
+              BUILDING <em>↗</em> EXPLORING <em>↗</em> COMPETING <em>↗</em> CREATING <em>↗</em> THINKING <em>↗</em>
+            </div>
+          </div>
+          <div className="many-sides-note">
+            <span>STARTUPS / MEDICINE / DESIGN / MUSIC / OUTDOORS / SPORT / FOOD / PEOPLE</span>
+            <span>KEEP SCROLLING ↓</span>
+          </div>
+        </section>
 
-          Every previous version of this page compressed these same facts into
-          fragments — "★★★★ tennis recruit", "lately it's all house" — on the
-          theory that terse reads as confident. It doesn't; it reads as
-          generated, because the one thing a person does that a generator
-          doesn't is simply say the thing. "I'm a huge Don Toliver fan and I've
-          been to four of his concerts" tells a stranger something.
+        <section id="os" className="os-section section-pad">
+          <div className="section-heading">
+            <span className="section-number">02</span>
+            <div>
+              <p className="micro-label">THE SIGNATURE FEATURE</p>
+              <h2>Welcome to<br /><em>Yashas OS.</em></h2>
+            </div>
+            <p>A clickable map of the different modes I move through. Pick one and play around.</p>
+          </div>
+          <YashasOS />
+        </section>
 
-          Set large, in one block: the lines frame it, and the size is what
-          fills the frame. Each paragraph opens in black and trails off into
-          grey, so a skim down the left edge still gets the gist.
-        */}
-          <section className="flex flex-1 flex-col justify-center gap-5 px-6 py-5 text-xl leading-[1.27] font-medium tracking-[-0.02em] text-faint sm:px-10">
-            <p>
-              <span className="text-fg">
-                I&rsquo;m currently nerding out over ML for the physical world,
-                especially VLAs for robot learning.
-              </span>{" "}
-              On the side, I&rsquo;m working on{" "}
-              <Named href={links.presence} mark="/logos/presence-ink.png">
-                Presence
-              </Named>
-              , where we build custom agent harnesses for service businesses.
-            </p>
+        <section id="now" className="now-section section-pad">
+          <div className="now-heading">
+            <div className="status-light"><i /> LIVE STATUS</div>
+            <h2>Currently<br /><em>running.</em></h2>
+            <p>Life changes faster than a résumé. This is the part designed to change with it.</p>
+          </div>
+          <div className="now-grid">
+            {currentlyRunning.map((item, index) => (
+              <article key={item.code} className={index === 0 ? "now-card now-card-featured" : "now-card"}>
+                <span>{item.code}</span>
+                <h3>{item.label}</h3>
+                <p>{item.value}</p>
+                <i aria-hidden="true">0{index + 1}</i>
+              </article>
+            ))}
+          </div>
+          <p className="edit-note">EDITABLE IN <code>lib/content.ts</code> / NO INVENTED STATUS UPDATES</p>
+        </section>
 
-            {/*
-            "I scaled it to $2M+ ARR" hands one person the credit for a
-            company's revenue, which isn't true of anybody and reads as
-            inflation the moment someone checks. The growth is "we"; what's his
-            is the role and the ownership, which are the parts that actually
-            say something about how he works.
-          */}
-            <p>
-              <span className="text-fg">
-                Previously, I was the 3rd engineering hire at{" "}
-                <Named href={links.fleetline} mark="/logos/fleetline.svg">
-                  Fleetline
-                </Named>{" "}
-                (YC&nbsp;S25). I&nbsp;joined pre-revenue and owned large parts
-                of the product as we grew to $2M+ ARR and got acquired by{" "}
-                <A href={links.optym}>Optym</A>.
-              </span>{" "}
-              Before Fleetline I was at{" "}
-              <Named href={links.cliqk} mark="/logos/cliqk-ink.png">
-                Cliqk
-              </Named>
-              , and I taught a cohort at{" "}
-              <Named href={links.aiSquads} mark="/logos/aisquads-ink.png">
-                AI Squads
-              </Named>
-              .
-            </p>
+        <section id="stories" className="stories-section section-pad">
+          <div className="section-heading stories-heading">
+            <span className="section-number">04</span>
+            <div>
+              <p className="micro-label">SELECTED SIGNALS</p>
+              <h2>Things worth<br /><em>telling you about.</em></h2>
+            </div>
+            <p>Not a timeline. Just a few experiences that changed how I think, build, and show up.</p>
+          </div>
 
-            {/*
-            "I used to be really good at it" is the page telling you how to rate
-            him, which is where ego actually lives — not in the facts
-            underneath. The rating comes out; the four stars and Kalamazoo stay
-            and say the same thing without asking for anything.
-          */}
-            <p>
-              <span className="text-fg">
-                I played tennis competitively growing up. I was a{" "}
-                <A href={links.tennis}>four-star recruit</A>
-              </span>{" "}
-              and played the US Boys National Championships in Kalamazoo in
-              2025. These days I just play for fun.
-            </p>
+          <div className="stories-list">
+            {stories.map((story) => (
+              <article className="story" key={story.number}>
+                <StoryVisual kind={story.kind} number={story.number} />
+                <div className="story-copy">
+                  <span className="micro-label">{story.number} / {story.kicker}</span>
+                  <h3>{story.title}</h3>
+                  <p>{story.description}</p>
+                  <div className="story-foot">
+                    <span>{story.footnote}</span>
+                    {"href" in story && story.href && <ArrowLink href={story.href}>Visit</ArrowLink>}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
 
-            <p>
-              <span className="text-fg">
-                I&rsquo;m a huge Don Toliver and Drake fan and I&rsquo;ve been
-                to four of Don&rsquo;s concerts.
-              </span>{" "}
-              Lately I&rsquo;ve really gotten into house music.
-            </p>
-          </section>
-        </main>
+        <section className="contact-section section-pad">
+          <div className="contact-topline"><span>OPEN CHANNEL / 05</span><span>TYPE “YASHAS” FOR A SMALL SURPRISE</span></div>
+          <p>Good ideas get better<br />when they <em>collide.</em></p>
+          <div className="contact-links">
+            <ArrowLink href={profile.linkedin}>Say hello on LinkedIn</ArrowLink>
+            <ArrowLink href={profile.github}>See what I&rsquo;m building</ArrowLink>
+          </div>
+          <div className="contact-orbit" aria-hidden="true"><i /><span>YD</span></div>
+        </section>
+      </main>
 
-        <footer className="relative flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line px-6 py-5 font-mono text-[13px] tracking-wider text-faint uppercase sm:px-10">
-          <Cross className="-top-2 -left-2" />
-          <Cross className="-top-2 -right-2" />
-          <span>[ Atlanta, GA ]</span>
-          <span>
-            [ <Clock /> ]
-          </span>
-        </footer>
-      </div>
-    </div>
+      <footer className="site-footer">
+        <span>YASHAS DEVULAPALLY © 2026</span>
+        <span>BUILT WITH CURIOSITY + A LOT OF BLUE</span>
+        <a href="#top">BACK TO TOP ↑</a>
+      </footer>
+    </>
   );
 }
