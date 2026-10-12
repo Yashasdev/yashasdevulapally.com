@@ -1,7 +1,14 @@
-import { HeroOrbit } from "@/components/hero-orbit";
+import Image from "next/image";
 import { InteractionLayer } from "@/components/interaction-layer";
-import { YashasOS } from "@/components/yashas-os";
-import { currentlyRunning, navItems, profile, stories } from "@/lib/content";
+import {
+  currentlyRunning,
+  impactStats,
+  navItems,
+  profile,
+  projects,
+  volleyballProfile,
+  volleyballStats,
+} from "@/lib/content";
 
 function ArrowLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -11,35 +18,24 @@ function ArrowLink({ href, children }: { href: string; children: React.ReactNode
   );
 }
 
-function StoryVisual({ kind, number }: { kind: string; number: string }) {
+function ProjectVisual({ kind, number }: { kind: string; number: string }) {
   return (
-    <div className={`story-visual story-visual-${kind}`} aria-hidden="true">
-      <span className="story-visual-index">FIELD_{number}</span>
-      {kind === "research" && (
-        <>
-          <div className="scan scan-one" /><div className="scan scan-two" />
-          <div className="scan-target"><i /><i /><i /></div>
-        </>
+    <div className={`project-visual project-visual-${kind}`} aria-hidden="true">
+      <span className="visual-index">FIELD_{number}</span>
+      {kind === "battery" && (
+        <div className="battery-object"><span /><i /><i /><i /></div>
       )}
-      {kind === "modeling" && (
-        <>
-          <div className="model-bars"><i /><i /><i /><i /><i /><i /></div>
-          <svg viewBox="0 0 400 220" preserveAspectRatio="none">
-            <path d="M0 188C55 184 70 156 114 158c56 3 54-85 105-75 46 9 51-55 96-39 39 14 51-28 85-35" />
-          </svg>
-        </>
+      {kind === "research" && (
+        <div className="scan-target"><i /><i /><i /><span>PERFUSION<br />MAP</span></div>
+      )}
+      {kind === "consulting" && (
+        <div className="roadmap"><span>PRECLINICAL</span><i /><span>IND</span><i /><span>CLINIC</span></div>
+      )}
+      {kind === "prototype" && (
+        <div className="prototype-object"><i /><i /><span>85°</span></div>
       )}
       {kind === "civic" && (
-        <div className="civic-orbits">
-          <i /><i /><i /><span>PEOPLE<br />FIRST</span>
-        </div>
-      )}
-      {kind === "sport" && (
-        <div className="court">
-          <div className="court-net" />
-          <i className="court-ball" />
-          <span>17</span>
-        </div>
+        <div className="civic-orbits"><i /><i /><i /><span>PEOPLE<br />FIRST</span></div>
       )}
     </div>
   );
@@ -64,7 +60,9 @@ export default function Home() {
 
       <main>
         <section id="top" className="hero section-pad">
-          <div className="hero-annotation"><span>PORTFOLIO / 2026</span><span>GEORGIA TECH / WORLDWIDE</span></div>
+          <div className="hero-annotation">
+            <span>PORTFOLIO / 2026</span><span>GEORGIA TECH / ATLANTA</span>
+          </div>
           <div className="hero-grid">
             <div className="hero-copy">
               <p className="micro-label">HELLO, INTERNET.</p>
@@ -75,10 +73,25 @@ export default function Home() {
               </h1>
               <div className="hero-intro">
                 <p>{profile.introduction}</p>
-                <a className="jump-link" href="#os">ENTER YASHAS OS <span>↓</span></a>
+                <a className="jump-link" href="#now">SEE WHAT&rsquo;S CURRENT <span>↓</span></a>
               </div>
             </div>
-            <HeroOrbit />
+
+            <figure className="hero-portrait">
+              <div className="portrait-frame">
+                <Image
+                  src="/yashas-headshot.jpg"
+                  alt="Yashas Devulapally"
+                  width={1741}
+                  height={2541}
+                  sizes="(max-width: 960px) 82vw, 38vw"
+                  preload
+                />
+                <span className="portrait-tag portrait-tag-top">OBJECT_01 / YASHAS</span>
+                <span className="portrait-tag portrait-tag-side">CURIOUS BY DEFAULT</span>
+              </div>
+              <figcaption><span>BIOMEDICAL ENGINEER</span><span>BUILDER</span><span>ATHLETE</span></figcaption>
+            </figure>
           </div>
           <div className="hero-bottomline">
             <span>BIOMEDICAL ENGINEERING</span><i>✦</i><span>BUILDING THINGS</span><i>✦</i>
@@ -86,40 +99,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="many-sides" aria-label="A few sides of Yashas">
-          <div className="many-sides-intro">
-            <span className="micro-label light">NOT ONE LANE / 001</span>
-            <p>I&rsquo;m happiest somewhere between disciplines—when the map isn&rsquo;t obvious yet.</p>
-          </div>
-          <div className="word-river" aria-hidden="true">
-            <div>
-              BUILDING <em>↗</em> EXPLORING <em>↗</em> COMPETING <em>↗</em> CREATING <em>↗</em> THINKING <em>↗</em>
-              BUILDING <em>↗</em> EXPLORING <em>↗</em> COMPETING <em>↗</em> CREATING <em>↗</em> THINKING <em>↗</em>
-            </div>
-          </div>
-          <div className="many-sides-note">
-            <span>STARTUPS / MEDICINE / DESIGN / MUSIC / OUTDOORS / SPORT / FOOD / PEOPLE</span>
-            <span>KEEP SCROLLING ↓</span>
-          </div>
-        </section>
-
-        <section id="os" className="os-section section-pad">
-          <div className="section-heading">
-            <span className="section-number">02</span>
-            <div>
-              <p className="micro-label">THE SIGNATURE FEATURE</p>
-              <h2>Welcome to<br /><em>Yashas OS.</em></h2>
-            </div>
-            <p>A clickable map of the different modes I move through. Pick one and play around.</p>
-          </div>
-          <YashasOS />
-        </section>
-
         <section id="now" className="now-section section-pad">
           <div className="now-heading">
             <div className="status-light"><i /> LIVE STATUS</div>
             <h2>Currently<br /><em>running.</em></h2>
-            <p>Life changes faster than a résumé. This is the part designed to change with it.</p>
+            <p>A live readout of what has my attention right now.</p>
           </div>
           <div className="now-grid">
             {currentlyRunning.map((item, index) => (
@@ -131,30 +115,50 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <p className="edit-note">EDITABLE IN <code>lib/content.ts</code> / NO INVENTED STATUS UPDATES</p>
         </section>
 
-        <section id="stories" className="stories-section section-pad">
-          <div className="section-heading stories-heading">
-            <span className="section-number">04</span>
+        <section className="signal-strip" aria-label="A few numbers from Yashas's work">
+          {impactStats.map((stat) => (
+            <div key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </section>
+
+        <section id="work" className="work-section section-pad">
+          <div className="section-heading">
+            <span className="section-number">02</span>
             <div>
               <p className="micro-label">SELECTED SIGNALS</p>
-              <h2>Things worth<br /><em>telling you about.</em></h2>
+              <h2>Work at the<br /><em>intersections.</em></h2>
             </div>
-            <p>Not a timeline. Just a few experiences that changed how I think, build, and show up.</p>
+            <div className="section-aside">
+              <p>The projects I keep coming back to live between disciplines: medicine and engineering, research and product, ideas and action.</p>
+              <figure className="candid-photo">
+                <Image
+                  src="/yashas-locked.jpg"
+                  alt="Yashas working at his laptop"
+                  width={1206}
+                  height={1301}
+                  sizes="(max-width: 640px) 38vw, 12rem"
+                />
+                <figcaption>IN THE ZONE / 2026</figcaption>
+              </figure>
+            </div>
           </div>
 
-          <div className="stories-list">
-            {stories.map((story) => (
-              <article className="story" key={story.number}>
-                <StoryVisual kind={story.kind} number={story.number} />
-                <div className="story-copy">
-                  <span className="micro-label">{story.number} / {story.kicker}</span>
-                  <h3>{story.title}</h3>
-                  <p>{story.description}</p>
-                  <div className="story-foot">
-                    <span>{story.footnote}</span>
-                    {"href" in story && story.href && <ArrowLink href={story.href}>Visit</ArrowLink>}
+          <div className="projects-list">
+            {projects.map((project) => (
+              <article className="project" key={project.number}>
+                <ProjectVisual kind={project.kind} number={project.number} />
+                <div className="project-copy">
+                  <span className="micro-label">{project.number} / {project.kicker}</span>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="project-foot">
+                    <span>{project.metric}</span>
+                    {"href" in project && project.href && <ArrowLink href={project.href}>Visit</ArrowLink>}
                   </div>
                 </div>
               </article>
@@ -162,8 +166,35 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="volleyball" className="volleyball-section section-pad">
+          <div className="volleyball-topline">
+            <span>COMPETITIVE MODE / 03</span><span>NEW ALBANY EAGLES / #17 / MIDDLE BLOCKER</span>
+          </div>
+          <div className="volleyball-grid">
+            <div className="volleyball-copy">
+              <p className="micro-label light">PRESSURE × TEAMWORK</p>
+              <h2>Meet me<br /><em>above the net.</em></h2>
+              <p>
+                Four years of varsity volleyball taught me to reset fast, communicate clearly, and enjoy the points that carry the most pressure. I helped take New Albany to the Ohio Division I Final Four and earned team MVP, First Team All-Conference and All-Region, plus All-State Honorable Mention.
+              </p>
+              <ArrowLink href={volleyballProfile}>View full career stats</ArrowLink>
+            </div>
+            <div className="volleyball-scoreboard">
+              <div className="jersey-mark" aria-hidden="true"><span>17</span><i>NA</i></div>
+              <div className="scoreboard-data">
+                <div className="volleyball-stats">
+                  {volleyballStats.map((stat) => (
+                    <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>
+                  ))}
+                </div>
+                <p>Ranked 41st nationally and 3rd in Ohio during the 2025 season. USA TODAY Player of the Year nominee.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="contact-section section-pad">
-          <div className="contact-topline"><span>OPEN CHANNEL / 05</span><span>TYPE “YASHAS” FOR A SMALL SURPRISE</span></div>
+          <div className="contact-topline"><span>OPEN CHANNEL / 04</span><span>TYPE “YASHAS” FOR A SMALL SURPRISE</span></div>
           <p>Good ideas get better<br />when they <em>collide.</em></p>
           <div className="contact-links">
             <ArrowLink href={profile.linkedin}>Say hello on LinkedIn</ArrowLink>

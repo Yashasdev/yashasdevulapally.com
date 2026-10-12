@@ -2,7 +2,7 @@
 
 An interactive personal website for Yashas Devulapally, built with Next.js 16, React 19, and Tailwind CSS 4.
 
-The site is designed as a blue-first editorial playground rather than an online résumé. Its centerpiece is **Yashas OS**, a set of interactive modules spanning building, exploring, competing, creating, and thinking.
+The site is designed as a blue-first editorial portfolio, combining a live “Currently Running” section with selected biomedical engineering, research, leadership, and volleyball stories.
 
 ## Run locally
 
@@ -17,18 +17,15 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Updating personal content
 
-All frequently changing copy lives in `lib/content.ts`, including:
+Site copy and project data live in `lib/content.ts`, including:
 
 - Profile introduction and social links
-- Yashas OS module descriptions
 - “Currently Running” status fields
-- Selected project and experience stories
-- Thinking-mode prompts
+- Selected projects and experience stories
+- Volleyball and impact statistics
 
 ## Interactions
 
-- Drag the blue YD object in the hero; double-click it to reset
-- Open each module in Yashas OS for a different mini-experience
 - Type `yashas` anywhere on the page to toggle the hidden “Blue Hour” theme
 - Desktop visitors receive a custom responsive cursor
 
