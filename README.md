@@ -26,6 +26,7 @@ Site copy and project data live in `lib/content.ts`, including:
 
 ## Interactions
 
+- Drag the blue YD object in the hero; double-click it to reset
 - Type `yashas` anywhere on the page to toggle the hidden “Blue Hour” theme
 - Desktop visitors receive a custom responsive cursor
 

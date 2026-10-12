@@ -22,8 +22,8 @@ export const currentlyRunning = [
 
 export const impactStats = [
   { value: "Top 1%", label: "Stamps President’s Scholar at Georgia Tech" },
-  { value: "220+", label: "Hours of regenerative medicine research" },
-  { value: "2", label: "Published abstracts in Circulation" },
+  { value: "400+", label: "Hours of regenerative medicine research" },
+  { value: "2", label: "Circulation abstracts supported through research contributions" },
   { value: "529", label: "Career varsity volleyball kills" },
 ] as const;
 
@@ -78,9 +78,9 @@ export const projects = [
 
 export const volleyballStats = [
   { value: "529", label: "Career kills" },
-  { value: ".332", label: "Career hitting percentage" },
-  { value: "128", label: "Total blocks" },
-  { value: "205", label: "Varsity sets played" },
+  { value: "#41", label: "In the nation / 2025" },
+  { value: "2025", label: "Season" },
+  { value: ".326", label: "Hitting percentage / Middle blocker" },
 ] as const;
 
 export const volleyballProfile =
