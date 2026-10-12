@@ -1,42 +1,41 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Serif_Display, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-});
-
-// Section labels only.
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const editorial = DM_Serif_Display({
+  variable: "--font-editorial",
+  weight: "400",
   subsets: ["latin"],
 });
 
 const DESCRIPTION =
-  "I’m currently nerding out over ML for the physical world, especially VLAs for robot learning. On the side, I’m working on Presence, where we build custom agent harnesses for service businesses. Previously, I was the 3rd engineering hire at Fleetline (YC S25), joined pre-revenue and owned large parts of the product as we grew to $2M+ ARR and got acquired by Optym. I played tennis competitively growing up, including the US Boys National Championships in Kalamazoo in 2025. These days I just play for fun.";
+  "The personal website of Yashas Devulapally—a biomedical engineering student, builder, competitor, creator, and relentlessly curious person.";
 
 export const metadata: Metadata = {
-  title: "hriday narang",
+  metadataBase: new URL("https://yashasdevulapally.com"),
+  title: "Yashas Devulapally — Builder, student, and many other things",
   description: DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "hriday narang",
+    title: "Hey, I’m Yashas. I like making things happen.",
     description: DESCRIPTION,
+    url: "/",
+    siteName: "Yashas Devulapally",
     type: "profile",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yashas Devulapally",
+    description: DESCRIPTION,
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${editorial.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
