@@ -111,6 +111,9 @@ export default function Home() {
                 <span>{item.code}</span>
                 <h3>{item.label}</h3>
                 <p>{item.value}</p>
+                {item.code === "BUILD_01" && <div className="now-brand now-brand-veyroth" aria-label="Veyroth AI logo"><span aria-hidden="true">V</span><small>VEYROTH AI</small></div>}
+                {item.code === "LOOP_04" && <div className="now-brand now-brand-ysquared" aria-label="Ysquared logo"><span aria-hidden="true">Y<sup>2</sup></span><small>YSQUARED</small></div>}
+                {item.code === "NEXT_05" && <Image className="now-friends" src="/friends.jpg" alt="Yashas spending time with friends" width={2048} height={1536} sizes="(max-width: 640px) 40vw, 18rem" />}
                 <i aria-hidden="true">0{index + 1}</i>
               </article>
             ))}
@@ -194,19 +197,19 @@ export default function Home() {
 
           <div className="volleyball-gallery" aria-label="Yashas playing volleyball">
             <figure className="volleyball-photo volleyball-photo-tall">
-              <Image src="/volleyball/attack-home.jpg" alt="Yashas attacking above the net for New Albany" fill sizes="(max-width: 700px) 100vw, 38vw" />
+              <Image src="/volleyball/attack-home.jpg" alt="Yashas attacking above the net for New Albany" fill sizes="(max-width: 640px) 144px, 20vw" />
             </figure>
             <figure className="volleyball-photo volleyball-photo-wide">
-              <Image src="/volleyball/attack-back.jpg" alt="Yashas approaching an attack from the back court" fill sizes="(max-width: 700px) 100vw, 62vw" />
+              <Image src="/volleyball/attack-back.jpg" alt="Yashas approaching an attack from the back court" fill sizes="(max-width: 640px) 144px, 20vw" />
             </figure>
             <figure className="volleyball-photo volleyball-photo-serve">
-              <Image src="/volleyball/jump-serve.jpg" alt="Yashas jump serving in a match" fill sizes="(max-width: 700px) 100vw, 34vw" />
+              <Image src="/volleyball/jump-serve.jpg" alt="Yashas jump serving in a match" fill sizes="(max-width: 640px) 144px, 20vw" />
             </figure>
             <figure className="volleyball-photo volleyball-photo-approach">
-              <Image src="/volleyball/approach.jpg" alt="Yashas in the air during an attacking approach" fill sizes="(max-width: 700px) 100vw, 33vw" />
+              <Image src="/volleyball/approach.jpg" alt="Yashas in the air during an attacking approach" fill sizes="(max-width: 640px) 144px, 20vw" />
             </figure>
             <figure className="volleyball-photo volleyball-photo-contact">
-              <Image src="/volleyball/contact.jpg" alt="Yashas preparing to contact the ball at the net" fill sizes="(max-width: 700px) 100vw, 33vw" />
+              <Image src="/volleyball/contact.jpg" alt="Yashas preparing to contact the ball at the net" fill sizes="(max-width: 640px) 144px, 20vw" />
             </figure>
             <p className="gallery-caption"><span>ABOVE THE NET / 2025</span><span>NEW ALBANY #17</span></p>
           </div>
