@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroOrbit } from "@/components/hero-orbit";
 import { InteractionLayer } from "@/components/interaction-layer";
 import {
   currentlyRunning,
@@ -65,33 +66,32 @@ export default function Home() {
           </div>
           <div className="hero-grid">
             <div className="hero-copy">
-              <p className="micro-label">HELLO, INTERNET.</p>
-              <h1>
-                <span>Hey, I&rsquo;m Yashas.</span>
-                <span>I like making</span>
-                <span><em>things happen.</em></span>
-              </h1>
-              <div className="hero-intro">
-                <p>{profile.introduction}</p>
-                <a className="jump-link" href="#now">SEE WHAT&rsquo;S CURRENT <span>↓</span></a>
-              </div>
-            </div>
-
-            <figure className="hero-portrait">
-              <div className="portrait-frame">
+              <figure className="hero-profile">
                 <Image
                   src="/yashas-headshot.jpg"
                   alt="Yashas Devulapally"
                   width={1741}
                   height={2541}
-                  sizes="(max-width: 960px) 82vw, 38vw"
+                  sizes="(max-width: 640px) 46vw, 14rem"
                   preload
                 />
-                <span className="portrait-tag portrait-tag-top">OBJECT_01 / YASHAS</span>
-                <span className="portrait-tag portrait-tag-side">CURIOUS BY DEFAULT</span>
+                <figcaption>OBJECT_01 / YASHAS</figcaption>
+              </figure>
+              <div className="hero-wording">
+                <p className="micro-label">HELLO, INTERNET.</p>
+                <h1>
+                  <span>Hey, I&rsquo;m Yashas.</span>
+                  <span>I like making</span>
+                  <span><em>things happen.</em></span>
+                </h1>
+                <div className="hero-intro">
+                  <p>{profile.introduction}</p>
+                  <a className="jump-link" href="#now">SEE WHAT&rsquo;S CURRENT <span>↓</span></a>
+                </div>
               </div>
-              <figcaption><span>BIOMEDICAL ENGINEER</span><span>BUILDER</span><span>ATHLETE</span></figcaption>
-            </figure>
+            </div>
+
+            <HeroOrbit />
           </div>
           <div className="hero-bottomline">
             <span>BIOMEDICAL ENGINEERING</span><i>✦</i><span>BUILDING THINGS</span><i>✦</i>
@@ -180,7 +180,7 @@ export default function Home() {
               <ArrowLink href={volleyballProfile}>View full career stats</ArrowLink>
             </div>
             <div className="volleyball-scoreboard">
-              <div className="jersey-mark" aria-hidden="true"><span>17</span><i>NA</i></div>
+              <div className="jersey-mark" aria-hidden="true"><span>#17</span><i>NA</i></div>
               <div className="scoreboard-data">
                 <div className="volleyball-stats">
                   {volleyballStats.map((stat) => (
@@ -190,6 +190,25 @@ export default function Home() {
                 <p>Ranked 41st nationally and 3rd in Ohio during the 2025 season. USA TODAY Player of the Year nominee.</p>
               </div>
             </div>
+          </div>
+
+          <div className="volleyball-gallery" aria-label="Yashas playing volleyball">
+            <figure className="volleyball-photo volleyball-photo-tall">
+              <Image src="/volleyball/attack-home.jpg" alt="Yashas attacking above the net for New Albany" fill sizes="(max-width: 700px) 100vw, 38vw" />
+            </figure>
+            <figure className="volleyball-photo volleyball-photo-wide">
+              <Image src="/volleyball/attack-back.jpg" alt="Yashas approaching an attack from the back court" fill sizes="(max-width: 700px) 100vw, 62vw" />
+            </figure>
+            <figure className="volleyball-photo volleyball-photo-serve">
+              <Image src="/volleyball/jump-serve.jpg" alt="Yashas jump serving in a match" fill sizes="(max-width: 700px) 100vw, 34vw" />
+            </figure>
+            <figure className="volleyball-photo volleyball-photo-approach">
+              <Image src="/volleyball/approach.jpg" alt="Yashas in the air during an attacking approach" fill sizes="(max-width: 700px) 100vw, 33vw" />
+            </figure>
+            <figure className="volleyball-photo volleyball-photo-contact">
+              <Image src="/volleyball/contact.jpg" alt="Yashas preparing to contact the ball at the net" fill sizes="(max-width: 700px) 100vw, 33vw" />
+            </figure>
+            <p className="gallery-caption"><span>ABOVE THE NET / 2025</span><span>NEW ALBANY #17</span></p>
           </div>
         </section>
 
