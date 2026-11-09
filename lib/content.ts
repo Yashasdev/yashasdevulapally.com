@@ -35,7 +35,7 @@ export const currentlyRunning = [
 
 export const impactStats = [
   { value: "Top 1%", label: "Stamps President’s Scholar at Georgia Tech" },
-  { value: "400+", label: "Hours of regenerative medicine research" },
+  { value: "500+", label: "Hours of regenerative medicine research" },
   {
     value: "2",
     label: "Circulation abstracts supported through research contributions",
@@ -64,7 +64,7 @@ export const projects = [
     title: "Finding signals inside the human body.",
     description:
       "At Nationwide Children’s, I led imaging work on peripheral artery disease using PET/CT perfusion mapping, calf-muscle segmentation, and arterial input function modeling. Earlier CT and histology research earned a Poster of Distinction.",
-    metric: "400+ research hours / PET + CT / Poster of Distinction",
+    metric: "500+ research hours / PET + CT / Poster of Distinction",
   },
   {
     number: "03",
@@ -96,8 +96,8 @@ export const projects = [
     kicker: "Leadership × Community",
     title: "Turning good intentions into useful action.",
     description:
-      "As one of seven national student leaders at Civic Leaders of America, I helped launch and operate a student-led civic nonprofit spanning more than ten schools across four states.",
-    metric: "7 national leaders / 10+ schools / 4 states",
+      "As one of seven national student leaders at Civic Leaders of America, I helped launch and operate a student-led civic nonprofit spanning 30+ schools across four states.",
+    metric: "7 national leaders / 30+ schools / 4 states",
     href: "https://www.civicleadersofamerica.org/",
   },
   {
@@ -108,8 +108,9 @@ export const projects = [
     kicker: "Founder & Instructor · STEM access",
     title: "Making engineering something you can try.",
     description:
-      "I founded a hands-on engineering course for underserved middle-school students at the Hilltop YMCA in Columbus, partnering with the YMCA and local libraries to expand access to STEM. I designed and taught challenges like paper bridges, marshmallow towers, and balloon-powered cars, helping students practice modeling, prototyping, testing, and teamwork.",
-    metric: "Engineering design / Hands-on learning / Community partnerships",
+      "I founded a hands-on engineering course for underserved middle-school students at the Hilltop YMCA in Columbus, partnering with the YMCA and local libraries to expand access to STEM. Through TLaE, I reached thousands of students. I designed and taught challenges like paper bridges, marshmallow towers, and balloon-powered cars, helping students practice modeling, prototyping, testing, and teamwork.",
+    metric:
+      "Thousands of students reached / Hands-on learning / Community partnerships",
   },
   {
     number: "07",

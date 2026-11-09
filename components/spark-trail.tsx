@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 type InkPoint = { x: number; y: number; time: number; color: string };
 
-export function WandTrail() {
+export function SparkTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function WandTrail() {
     );
     let points: InkPoint[] = [];
     let frame = 0;
-    const lifetime = 460;
+    const lifetime = 360;
 
     const clear = () => {
       cancelAnimationFrame(frame);
@@ -52,7 +52,7 @@ export function WandTrail() {
         context.moveTo(previous.x, previous.y);
         context.lineTo(point.x, point.y);
         context.stroke();
-        // Tiny four-point sparks drift gently away from the wand's path.
+        // Tiny four-point sparks echo the cursor symbol as the trail fades.
         if (i % 3 === 0) {
           const age = (time - point.time) / lifetime;
           const x = point.x + Math.sin(point.time) * (2 + age * 5);
@@ -90,7 +90,7 @@ export function WandTrail() {
         y: event.clientY,
         time: performance.now(),
         color: getComputedStyle(document.documentElement)
-          .getPropertyValue("--magic")
+          .getPropertyValue("--blue")
           .trim(),
       });
       if (points.length > 48) points.shift();
@@ -113,5 +113,5 @@ export function WandTrail() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="wand-trail" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="spark-trail" aria-hidden="true" />;
 }
