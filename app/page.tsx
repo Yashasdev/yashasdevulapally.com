@@ -46,6 +46,11 @@ export default function Home() {
             research into something useful.
           </p>
           <p>
+            I also founded <Link href="/work">Think Like an Engineer</Link>, a
+            hands-on course that introduced middle-school students at the
+            Hilltop YMCA to engineering through building and experimentation.
+          </p>
+          <p>
             Outside of work, you&rsquo;ll find me playing volleyball, lifting,
             making content, or spending time with friends. I like making things
             happen—and learning along the way.

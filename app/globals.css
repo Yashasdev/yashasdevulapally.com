@@ -589,6 +589,32 @@ p {
 .blue-hour .orbit-core {
   color: #101e33;
 }
+.supporting-section {
+  padding-top: 25px;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.supporting-section > h2 {
+  margin-bottom: 24px;
+}
+.honors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.honors-list li {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.honors-list small {
+  color: var(--muted);
+  font-size: 11px;
+}
 @keyframes orbit-spin {
   to {
     rotate: 360deg;

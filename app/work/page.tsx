@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { impactStats, projects } from "@/lib/content";
+import {
+  impactStats,
+  leadershipHighlights,
+  projects,
+  selectedHonors,
+} from "@/lib/content";
 export const metadata: Metadata = {
   title: "Research & Work — Yashas Devulapally",
   alternates: { canonical: "/work" },
@@ -48,6 +53,33 @@ export default function Work() {
             )}
           </article>
         ))}
+      </section>
+      <section
+        className="supporting-section"
+        aria-labelledby="leadership-heading"
+      >
+        <h2 id="leadership-heading">Leadership & service</h2>
+        <div className="experience-list">
+          {leadershipHighlights.map((item) => (
+            <article key={item.title}>
+              <div className="entry-heading">
+                <h3>{item.title}</h3>
+              </div>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="supporting-section" aria-labelledby="honors-heading">
+        <h2 id="honors-heading">Selected honors</h2>
+        <ul className="honors-list">
+          {selectedHonors.map((honor) => (
+            <li key={honor.title}>
+              <span>{honor.title}</span>
+              <small>{honor.detail}</small>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );
