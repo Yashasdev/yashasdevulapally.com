@@ -488,6 +488,12 @@ p {
   letter-spacing: 1.5px;
   margin-top: 12px;
 }
+.brand-mark svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin-inline: auto;
+}
 .friends-photo {
   display: block;
   width: 180px;

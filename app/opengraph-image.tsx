@@ -36,7 +36,7 @@ export default function OpenGraphImage() {
           }}
         >
           <span style={{ color: "#245bd0" }}>yd.</span>
-          <span>OHIO → ATLANTA</span>
+          <span>COLUMBUS → ATLANTA</span>
         </div>
         <div
           style={{

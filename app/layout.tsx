@@ -56,7 +56,7 @@ export default function RootLayout({
         <SiteHeader />
         <main id="main">{children}</main>
         <footer className="site-footer">
-          <span>Yashas Devulapally · Ohio → Atlanta</span>
+          <span>Yashas Devulapally · Columbus → Atlanta</span>
           <div>
             <a href="mailto:ydevulapally3@gatech.edu">Email ↗</a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer">
