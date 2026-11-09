@@ -3,6 +3,7 @@ import { DM_Serif_Display, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { InteractionLayer } from "@/components/interaction-layer";
+import { PencilTrail } from "@/components/pencil-trail";
 import { profile } from "@/lib/content";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -51,6 +52,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <InteractionLayer />
+        <PencilTrail />
         <SiteHeader />
         <main id="main">{children}</main>
         <footer className="site-footer">
