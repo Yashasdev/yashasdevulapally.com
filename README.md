@@ -2,7 +2,7 @@
 
 An interactive personal website for Yashas Devulapally, built with Next.js 16, React 19, and Tailwind CSS 4.
 
-The site is designed as a blue-first editorial portfolio, combining a live “Currently Running” section with selected biomedical engineering, research, leadership, and volleyball stories.
+The site uses a quiet, readable portfolio layout with separate Home, Research & Work, Currently, and Volleyball pages. Navigation stays available at the top of every page.
 
 ## Run locally
 
@@ -26,9 +26,9 @@ Site copy and project data live in `lib/content.ts`, including:
 
 ## Interactions
 
-- Drag the blue YD object in the hero; double-click it to reset
+- Drag the small blue YD object on the homepage, or move it with arrow keys; double-click or press Escape to reset
 - Type `yashas` anywhere on the page to toggle the hidden “Blue Hour” theme
-- Desktop visitors receive a custom responsive cursor
+- Click personal or volleyball photos to open a larger view; Escape closes the viewer
 
 All motion respects `prefers-reduced-motion`.
 
