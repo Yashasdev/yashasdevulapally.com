@@ -1,6 +1,5 @@
 @import "tailwindcss";
 :root {
-  --magic: #b88225;
   --paper: #fcfcfa;
   --ink: #182e48;
   --muted: #607084;
@@ -586,7 +585,6 @@ p {
   display: none;
 }
 .blue-hour {
-  --magic: #efc76a;
   --paper: #101e33;
   --ink: #e0e9f5;
   --muted: #acbcd1;
@@ -597,7 +595,7 @@ p {
 .blue-hour .orbit-core {
   color: #101e33;
 }
-.wand-trail {
+.spark-trail {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -608,8 +606,8 @@ p {
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   body {
     cursor:
-      url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2228%22%20viewBox%3D%220%200%2026%2028%22%3E%3Cpath%20d%3D%22M3%2024%2019%208%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M3%2024%2019%208%22%20stroke%3D%22%2349342a%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22m4%2023%205-5%22%20stroke%3D%22%239c734a%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2221%22%20cy%3D%225%22%20r%3D%224%22%20fill%3D%22%23e7ba59%22%20opacity%3D%22.2%22%2F%3E%3Cpath%20d%3D%22m21%201%20.9%203.1L25%205l-3.1.9L21%209l-.9-3.1L17%205l3.1-.9Z%22%20fill%3D%22%23d7a643%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.5%22%2F%3E%3C%2Fsvg%3E")
-        21 5,
+      url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22m10%201.5%202.2%206.3%206.3%202.2-6.3%202.2-2.2%206.3-2.2-6.3L1.5%2010l6.3-2.2Z%22%20fill%3D%22%23245bd0%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.2%22%20stroke-linejoin%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.5%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E")
+        10 10,
       auto;
   }
   a,
@@ -623,12 +621,12 @@ p {
   }
 }
 @media (prefers-reduced-motion: reduce), (pointer: coarse) {
-  .wand-trail {
+  .spark-trail {
     display: none;
   }
 }
 @media (forced-colors: active) {
-  .wand-trail {
+  .spark-trail {
     display: none;
   }
   body,
