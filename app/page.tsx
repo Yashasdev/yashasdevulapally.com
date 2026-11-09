@@ -36,7 +36,8 @@ export default function Home() {
           <p>
             Hi, I&rsquo;m Yashas. I&rsquo;m a biomedical engineering student at
             Georgia Tech, interested in the space between medicine, engineering,
-            and building things that help people.
+            and building things that help people. I’m also part of Georgia
+            Tech’s Grand Challenges Living Learning Community.
           </p>
           <p>
             That curiosity has taken me from PET/CT imaging research at

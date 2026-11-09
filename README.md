@@ -29,7 +29,7 @@ Site copy and project data live in `lib/content.ts`, including:
 - Drag the small blue YD object on the homepage, or move it with arrow keys; double-click or press Escape to reset
 - Type `yashas` anywhere on the page to toggle the hidden “Blue Hour” theme
 - Click personal or volleyball photos to open a larger view; Escape closes the viewer
-- Desktop visitors get a pencil cursor with a short fading ink trail; touch and reduced-motion settings keep native behavior
+- Desktop visitors get a compact arrow cursor with a short fading ink trail; touch and reduced-motion settings keep native behavior
 
 All motion respects `prefers-reduced-motion`.
 

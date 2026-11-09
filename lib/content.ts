@@ -137,6 +137,11 @@ export const projects = [
 
 export const leadershipHighlights = [
   {
+    title: "Grand Challenges Living Learning Community",
+    detail:
+      "At Georgia Tech, I’m part of Grand Challenges, an interdisciplinary living learning community focused on collaborative problem-solving and leadership.",
+  },
+  {
     title: "Future Medical Professionals Club",
     detail:
       "As president at New Albany High School, I organized healthcare speaker events and led hands-on workshops in suturing, anatomy, and dissection.",
