@@ -17,7 +17,7 @@ export const currentlyRunning = [
   { label: "Currently building", value: "Veyroth AI", code: "BUILD_01" },
   {
     label: "Currently learning",
-    value: "Biotech consulting",
+    value: "Machine learning + startups",
     code: "LEARN_02",
   },
   {
@@ -99,6 +99,69 @@ export const projects = [
       "As one of seven national student leaders at Civic Leaders of America, I helped launch and operate a student-led civic nonprofit spanning more than ten schools across four states.",
     metric: "7 national leaders / 10+ schools / 4 states",
     href: "https://www.civicleadersofamerica.org/",
+  },
+  {
+    number: "06",
+    organization: "Think Like an Engineer (TLaE)",
+    period: "Founded Nov 2024",
+    kind: "education",
+    kicker: "Founder & Instructor · STEM access",
+    title: "Making engineering something you can try.",
+    description:
+      "I founded a hands-on engineering course for underserved middle-school students at the Hilltop YMCA in Columbus, partnering with the YMCA and local libraries to expand access to STEM. I designed and taught challenges like paper bridges, marshmallow towers, and balloon-powered cars, helping students practice modeling, prototyping, testing, and teamwork.",
+    metric: "Engineering design / Hands-on learning / Community partnerships",
+  },
+  {
+    number: "07",
+    organization: "RoboThink Columbus",
+    period: "Started Sep 2024",
+    kind: "education",
+    kicker: "Build Coach & STEM Instructor",
+    title: "Helping young builders become problem-solvers.",
+    description:
+      "I taught robotics and engineering to elementary-school students through interactive builds, coding, and design challenges. By adapting lessons to different learning styles and helping students troubleshoot their own designs, I encouraged them to move from following instructions to experimenting independently.",
+    metric: "Robotics / Coding / Engineering instruction",
+  },
+  {
+    number: "08",
+    organization: "Clinical & Health Science Exploration",
+    period: "Pre-college",
+    kind: "clinical",
+    kicker: "Nationwide Children’s Hospital · OhioHealth",
+    title: "Understanding the people behind the engineering.",
+    description:
+      "Through Nationwide Children’s Mechanisms of Human Health and Disease program, I explored familial addiction and the genetics of Charcot–Marie–Tooth disease, presented research, and participated in clinical simulations. I also shadowed critical-care physicians at Grant Medical Center in summer 2023, observing ICU care and ventilator management.",
+    metric: "Health science / Clinical simulations / ICU shadowing",
+  },
+] as const;
+
+export const leadershipHighlights = [
+  {
+    title: "Future Medical Professionals Club",
+    detail:
+      "As president at New Albany High School, I organized healthcare speaker events and led hands-on workshops in suturing, anatomy, and dissection.",
+  },
+  {
+    title: "Ohio Model United Nations",
+    detail:
+      "As team captain and rebuttal speaker, I helped develop and defend a resolution proposing AI-assisted drones to address poaching in Mozambique. Our resolution passed in the General Assembly and earned an Outstanding Resolution Award.",
+  },
+] as const;
+
+export const selectedHonors = [
+  { title: "National Merit Finalist", detail: "2026" },
+  {
+    title: "MathWorks Math Modeling Challenge · Honorable Mention",
+    detail: "2026",
+  },
+  {
+    title: "Research Poster of Distinction",
+    detail: "Nationwide Children’s Hospital · 2024",
+  },
+  {
+    title: "Civil Discourse Essay Competition · First Place",
+    detail:
+      "New Albany Community Foundation / Park National Bank · 2023 & 2025",
   },
 ] as const;
 
