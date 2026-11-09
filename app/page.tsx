@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <section className="home-intro">
-        <p className="eyebrow">OHIO ROOTS. ATLANTA CHAPTER.</p>
+        <p className="eyebrow">COLUMBUS ROOTS. ATLANTA CHAPTER.</p>
         <div className="intro-grid">
           <div>
             <h1>
