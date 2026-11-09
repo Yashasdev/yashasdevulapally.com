@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 type InkPoint = { x: number; y: number; time: number; color: string };
 
-export function PencilTrail() {
+export function WandTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function PencilTrail() {
     );
     let points: InkPoint[] = [];
     let frame = 0;
-    const lifetime = 360;
+    const lifetime = 460;
 
     const clear = () => {
       cancelAnimationFrame(frame);
@@ -46,23 +46,29 @@ export function PencilTrail() {
         const strength = Math.max(0, 1 - (time - point.time) / lifetime);
         context.strokeStyle = point.color;
         context.fillStyle = point.color;
-        context.globalAlpha = strength * 0.38;
-        context.lineWidth = 0.7 + strength * 0.8;
+        context.globalAlpha = strength * 0.2;
+        context.lineWidth = 0.5 + strength * 0.5;
         context.beginPath();
         context.moveTo(previous.x, previous.y);
         context.lineTo(point.x, point.y);
         context.stroke();
-        // Small graphite flecks give the line a hand-drawn texture.
+        // Tiny four-point sparks drift gently away from the wand's path.
         if (i % 3 === 0) {
-          context.globalAlpha = strength * 0.22;
+          const age = (time - point.time) / lifetime;
+          const x = point.x + Math.sin(point.time) * (2 + age * 5);
+          const y = point.y - age * 7;
+          const radius = 1 + strength * 2;
+          context.globalAlpha = strength * 0.65;
           context.beginPath();
-          context.arc(
-            point.x + Math.sin(point.time) * 2,
-            point.y + 2,
-            0.7,
-            0,
-            Math.PI * 2,
-          );
+          context.moveTo(x, y - radius);
+          context.lineTo(x + radius * 0.28, y - radius * 0.28);
+          context.lineTo(x + radius, y);
+          context.lineTo(x + radius * 0.28, y + radius * 0.28);
+          context.lineTo(x, y + radius);
+          context.lineTo(x - radius * 0.28, y + radius * 0.28);
+          context.lineTo(x - radius, y);
+          context.lineTo(x - radius * 0.28, y - radius * 0.28);
+          context.closePath();
           context.fill();
         }
       }
@@ -84,7 +90,7 @@ export function PencilTrail() {
         y: event.clientY,
         time: performance.now(),
         color: getComputedStyle(document.documentElement)
-          .getPropertyValue("--blue")
+          .getPropertyValue("--magic")
           .trim(),
       });
       if (points.length > 48) points.shift();
@@ -107,5 +113,5 @@ export function PencilTrail() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="pencil-trail" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="wand-trail" aria-hidden="true" />;
 }
