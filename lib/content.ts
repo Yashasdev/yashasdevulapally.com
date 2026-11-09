@@ -7,29 +7,47 @@ export const profile = {
 };
 
 export const navItems = [
-  { label: "Now", href: "#now" },
-  { label: "Work", href: "#work" },
-  { label: "Volleyball", href: "#volleyball" },
+  { label: "Home", href: "/" },
+  { label: "Research & Work", href: "/work" },
+  { label: "Currently", href: "/now" },
+  { label: "Volleyball", href: "/volleyball" },
 ] as const;
 
 export const currentlyRunning = [
   { label: "Currently building", value: "Veyroth AI", code: "BUILD_01" },
-  { label: "Currently learning", value: "Biotech consulting", code: "LEARN_02" },
-  { label: "Currently listening to", value: "Mind Over Matter", code: "PLAY_03" },
-  { label: "Currently obsessed with", value: "Content creation", code: "LOOP_04" },
+  {
+    label: "Currently learning",
+    value: "Biotech consulting",
+    code: "LEARN_02",
+  },
+  {
+    label: "Currently listening to",
+    value: "Mind Over Matter",
+    code: "PLAY_03",
+  },
+  {
+    label: "Currently obsessed with",
+    value: "Content creation",
+    code: "LOOP_04",
+  },
   { label: "Next adventure", value: "Living life", code: "NEXT_05" },
 ] as const;
 
 export const impactStats = [
   { value: "Top 1%", label: "Stamps President’s Scholar at Georgia Tech" },
   { value: "400+", label: "Hours of regenerative medicine research" },
-  { value: "2", label: "Circulation abstracts supported through research contributions" },
+  {
+    value: "2",
+    label: "Circulation abstracts supported through research contributions",
+  },
   { value: "529", label: "Career varsity volleyball kills" },
 ] as const;
 
 export const projects = [
   {
     number: "01",
+    organization: "NavaFlex",
+    period: "Summer 2026",
     kind: "battery",
     kicker: "Wearable technology × R&D",
     title: "Testing the power source for what comes next.",
@@ -39,15 +57,19 @@ export const projects = [
   },
   {
     number: "02",
+    organization: "Nationwide Children’s Hospital",
+    period: "2024–2025",
     kind: "research",
     kicker: "Medicine × Imaging",
     title: "Finding signals inside the human body.",
     description:
       "At Nationwide Children’s, I led imaging work on peripheral artery disease using PET/CT perfusion mapping, calf-muscle segmentation, and arterial input function modeling. Earlier CT and histology research earned a Poster of Distinction.",
-    metric: "220+ hours / PET + CT / Poster of Distinction",
+    metric: "400+ research hours / PET + CT / Poster of Distinction",
   },
   {
     number: "03",
+    organization: "BioConnect · AtheroVax",
+    period: "2026–present",
     kind: "consulting",
     kicker: "Biotech × Strategy",
     title: "Charting a vaccine’s path toward the clinic.",
@@ -57,6 +79,8 @@ export const projects = [
   },
   {
     number: "04",
+    organization: "Johns Hopkins BMEI",
+    period: "2024",
     kind: "prototype",
     kicker: "Biomechanics × Prototyping",
     title: "Building a better landing for the shoulder.",
@@ -66,6 +90,8 @@ export const projects = [
   },
   {
     number: "05",
+    organization: "Civic Leaders of America",
+    period: "2024–2026",
     kind: "civic",
     kicker: "Leadership × Community",
     title: "Turning good intentions into useful action.",

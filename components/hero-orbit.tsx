@@ -53,19 +53,49 @@ export function HeroOrbit() {
       <div className="orbit-ring orbit-ring-one" aria-hidden="true" />
       <div className="orbit-ring orbit-ring-two" aria-hidden="true" />
       <span className="orbit-note orbit-note-top">OBJECT_02 / MOVE ME</span>
-      <span className="orbit-note orbit-note-side">X CURIOSITY / Y MOMENTUM</span>
+      <span className="orbit-note orbit-note-side">
+        X CURIOSITY / Y MOMENTUM
+      </span>
       <span className="orbit-float orbit-float-a">IDEAS</span>
       <span className="orbit-float orbit-float-b">MOTION</span>
       <button
         type="button"
         className={`orbit-core${dragging ? " is-dragging" : ""}`}
-        style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
+        style={{
+          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+        }}
         onPointerDown={startDrag}
         onPointerMove={drag}
         onPointerUp={() => setDragging(false)}
         onPointerCancel={() => setDragging(false)}
         onDoubleClick={() => setPosition({ x: 0, y: 0 })}
-        aria-label="Drag the YD object around the orbit. Double click to reset it."
+        onKeyDown={(event) => {
+          const steps: Record<string, Point> = {
+            ArrowLeft: { x: -8, y: 0 },
+            ArrowRight: { x: 8, y: 0 },
+            ArrowUp: { x: 0, y: -8 },
+            ArrowDown: { x: 0, y: 8 },
+          };
+          if (event.key === "Escape" || event.key === "Home") {
+            event.preventDefault();
+            setPosition({ x: 0, y: 0 });
+          } else if (steps[event.key] && stageRef.current) {
+            event.preventDefault();
+            const rect = stageRef.current.getBoundingClientRect();
+            const step = steps[event.key];
+            setPosition((current) => ({
+              x: Math.max(
+                -rect.width * 0.25,
+                Math.min(rect.width * 0.25, current.x + step.x),
+              ),
+              y: Math.max(
+                -rect.height * 0.25,
+                Math.min(rect.height * 0.25, current.y + step.y),
+              ),
+            }));
+          }
+        }}
+        aria-label="Move the YD object by dragging or using arrow keys. Double click or press Escape to reset."
       >
         <span>YD</span>
         <small>DRAG</small>
